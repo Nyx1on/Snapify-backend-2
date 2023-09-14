@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
-from image2promptCPU import generateCaption
+from image2prompt import generateCaption
+from create_story import generate_story
 
 app = Flask(__name__)
 
@@ -12,8 +13,8 @@ load_dotenv()
 
 Backend_Base_url = "http://localhost:8000/uploads/"
 
-@app.route('/image2prompt', methods=['POST'])
-def image2prompt():
+@app.route('/captions/get', methods=['POST'])
+def get_captions():
     data = request.json.get('data')
     imgUrls = []
 
@@ -26,6 +27,20 @@ def image2prompt():
         print(generatedCaptions)
 
     return jsonify(generatedCaptions)
+
+@app.route('/story/get', methods=['POST'])
+def get_story():
+    captions = request.json.get("captions")
+
+    print(captions)
+
+    generated_story = generate_story(captions)
+
+    print("Generated Story:")
+    
+    print(generated_story)
+
+    return jsonify(generated_story)
 
 
 if __name__ == '__main__':

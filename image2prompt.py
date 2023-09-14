@@ -41,5 +41,7 @@ def generateCaption(img_urls):
             caption = processor.decode(out[0], skip_special_tokens=True)
 
             captions.append(caption)
+    else:
+        return "No images selected"
 
     return captions
