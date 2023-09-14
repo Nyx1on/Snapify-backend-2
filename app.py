@@ -13,6 +13,7 @@ load_dotenv()
 
 Backend_Base_url = "http://localhost:8000/uploads/"
 
+
 @app.route('/captions/get', methods=['POST'])
 def get_captions():
     data = request.json.get('data')
@@ -28,16 +29,18 @@ def get_captions():
 
     return jsonify(generatedCaptions)
 
+
 @app.route('/story/get', methods=['POST'])
 def get_story():
+    title = request.json.get('title')
     captions = request.json.get("captions")
-
+    prompt = request.json.get("prompt")
     print(captions)
 
-    generated_story = generate_story(captions)
+    generated_story = generate_story(title, captions, prompt)
 
     print("Generated Story:")
-    
+
     print(generated_story)
 
     return jsonify(generated_story)
