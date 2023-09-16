@@ -25,7 +25,7 @@ model = BlipForConditionalGeneration.from_pretrained(
 # print(processor.decode(out[0], skip_special_tokens=True))
 
 
-def generateCaption(img_urls):
+def generate_text_from_image(img_urls):
     captions = []
 
     if img_urls is not None:

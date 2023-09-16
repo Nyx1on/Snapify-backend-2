@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def generate_story(title,captions, prompts=None):
+def generate_story(title, captions, prompts=None):
     input_text = "\n".join(captions)
 
     prompt_text = ""
@@ -26,15 +26,48 @@ def generate_story(title,captions, prompts=None):
     """
 
     story_prompt_template = PromptTemplate(
-        input_variables=["title","captions","prompts"], template=story_template)
+        input_variables=["title", "captions", "prompts"], template=story_template)
 
-    llm = ChatOpenAI(temperature=0.8, model_name="gpt-3.5-turbo")
+    llm = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo")
 
     chain = LLMChain(llm=llm, prompt=story_prompt_template)
 
-    generated_story = chain.run(title=title,captions=input_text,prompts=prompt_text)
+    generated_story = chain.run(
+        title=title, captions=input_text, prompts=prompt_text)
 
     return generated_story
+
+
+def generate_caption(title, captions, prompts=None):
+    input_text = "\n".join(captions)
+
+    prompt_text = ""
+
+    if prompts:
+        prompt_text = "\n".join(prompts)
+
+    caption_template = """
+        given the following descriptions of images:
+
+        {captions}
+
+        {prompts}
+
+        please generate short quotes within 10-15 words.
+        Do not describe the image rather generate quotes.
+    """
+
+    caption_prompt_template = PromptTemplate(
+        input_variables=["captions", "prompts"], template=caption_template)
+
+    llm = ChatOpenAI(temperature=0.7, model_name="gpt-3.5-turbo")
+
+    chain = LLMChain(llm=llm, prompt=caption_prompt_template)
+
+    generated_caption = chain.run(
+        captions=input_text, prompts=prompt_text)
+
+    return generated_caption
 
 
 if __name__ == "__main__":
