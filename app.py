@@ -48,12 +48,11 @@ def get_story():
 
 @app.route('/generate-caption', methods=['POST'])
 def generate_caption_api():
-    title = request.json.get('title')
     captions = request.json.get("captions")
     prompt = request.json.get("prompt")
     print(captions)
 
-    generated_caption = generate_caption(title, captions, prompt)
+    generated_caption = generate_caption(captions, prompt)
 
     print("Generated Caption:")
 

@@ -38,7 +38,7 @@ def generate_story(title, captions, prompts=None):
     return generated_story
 
 
-def generate_caption(title, captions, prompts=None):
+def generate_caption( captions, prompts=None):
     input_text = "\n".join(captions)
 
     prompt_text = ""
